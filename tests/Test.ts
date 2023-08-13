@@ -18,12 +18,13 @@ describe("NFT Shop", async () => {
     const paymentTokenContractFactory_ = await ethers.getContractFactory("MyERC20");
     const paymentTokenContract_ = await paymentTokenContractFactory_.deploy();
     await paymentTokenContract_.waitForDeployment();
+    const paymentTokenContractAdress = paymentTokenContract_.getAddress();
     
 
     //Deploy do segundo contracto que usa a moeda (vende)
 
     const tokenSaleContractFactory_ = await ethers.getContractFactory("TokenSale");
-    const tokenSaleContract_ = await tokenSaleContractFactory_.deploy(RATIO, ethers.ZeroAddress);
+    const tokenSaleContract_ = await tokenSaleContractFactory_.deploy(RATIO, paymentTokenContractAdress);
     await tokenSaleContract_.waitForDeployment(); 
     return {tokenSaleContract_, paymentTokenContract_}; 
   };
